@@ -1,3 +1,6 @@
+基于 [niuzhiheng/caffe](https://github.com/niuzhiheng/caffe) 修改。
+
+---
 # Windows Installation
 This is not the original [Caffe Readme](https://github.com/BVLC/caffe/blob/master/README.md) but an installation guide for windows version.
 

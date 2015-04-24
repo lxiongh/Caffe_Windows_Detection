@@ -1,0 +1,4 @@
+Log file created at: 2015/04/22 20:10:12
+Running on machine: LXIONGH-PC
+Log line format: [IWEF]mmdd hh:mm:ss.uuuuuu threadid file:line] msg
+E0422 20:10:12.110610  1188 train_net.cpp:20] Usage: train_net solver_proto_file [resume_point_file]

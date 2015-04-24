@@ -60,12 +60,12 @@ inline void WriteProtoToBinaryFile(
   WriteProtoToBinaryFile(proto, filename.c_str());
 }
 
-bool ReadImageToDatum(const string& filename, const int label,
+bool ReadImageToDatum(const string& filename, const std::vector<int> labels,
     const int height, const int width, Datum* datum);
 
-inline bool ReadImageToDatum(const string& filename, const int label,
+inline bool ReadImageToDatum(const string& filename, const std::vector<int> labels,
     Datum* datum) {
-  return ReadImageToDatum(filename, label, 0, 0, datum);
+  return ReadImageToDatum(filename, labels, 0, 0, datum);
 }
 /*
 template <typename Dtype>

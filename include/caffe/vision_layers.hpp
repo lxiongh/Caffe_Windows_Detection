@@ -481,6 +481,7 @@ class ImageDataLayer : public Layer<Dtype> {
   virtual ~ImageDataLayer();
   virtual void SetUp(const vector<Blob<Dtype>*>& bottom,
       vector<Blob<Dtype>*>* top);
+	vector<std::pair<std::string, std::vector<int> > > lines_;
 
  protected:
   virtual Dtype Forward_cpu(const vector<Blob<Dtype>*>& bottom,
@@ -499,7 +500,7 @@ class ImageDataLayer : public Layer<Dtype> {
   virtual unsigned int PrefetchRand();
 
   shared_ptr<Caffe::RNG> prefetch_rng_;
-  vector<std::pair<std::string, int> > lines_;
+  
   int lines_id_;
   int datum_channels_;
   int datum_height_;

@@ -40,11 +40,17 @@ int main(int argc, char** argv) {
     return 1;
   }
   std::ifstream infile(argv[2]);
-  std::vector<std::pair<string, int> > lines;
+  std::vector<std::pair<string, std::vector<int> > > lines;
   string filename;
-  int label;
-  while (infile >> filename >> label) {
-    lines.push_back(std::make_pair(filename, label));
+  int x1, y1, x2, y2;
+  while (infile >> filename >> x1 >> y1 >> x2 >> y2) {
+    std::vector<int> labels;
+    labels.push_back(x1);
+    labels.push_back(y1);
+    labels.push_back(x2);
+    labels.push_back(y2);
+
+    lines.push_back(std::make_pair(filename, labels));
   }
   if (argc == 5 && argv[4][0] == '1') {
     // randomly shuffle data

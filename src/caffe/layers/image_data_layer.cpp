@@ -116,7 +116,10 @@ void* ImageDataLayerPrefetch(void* layer_pointer) {
       }
     }
 
-    top_label[item_id] = datum.label();
+    // top_label[item_id] = datum.label();
+		for(int label_i=0; label_i<datum.label_size(); label_i++){
+			top_label[item_id*datum.label_size()+label_i] = datum.label(label_i);
+		}
     // go to the next iter
     layer->lines_id_++;
     if (layer->lines_id_ >= lines_size) {
@@ -152,9 +155,16 @@ void ImageDataLayer<Dtype>::SetUp(const vector<Blob<Dtype>*>& bottom,
   LOG(INFO) << "Opening file " << source;
   std::ifstream infile(source.c_str());
   string filename;
-  int label;
-  while (infile >> filename >> label) {
-    lines_.push_back(std::make_pair(filename, label));
+  // int label;
+	int x1, y1, x2, y2;
+  while (infile >> filename >> x1 >> y1 >> x2 >> y2) {
+		std::vector<int> vec_label;
+		vec_label.push_back(x1);
+		vec_label.push_back(y1);
+		vec_label.push_back(x2);
+		vec_label.push_back(y2);
+
+    lines_.push_back(std::make_pair(filename, vec_label));
   }
 
   if (this->layer_param_.image_data_param().shuffle()) {
@@ -197,8 +207,8 @@ void ImageDataLayer<Dtype>::SetUp(const vector<Blob<Dtype>*>& bottom,
       << (*top)[0]->channels() << "," << (*top)[0]->height() << ","
       << (*top)[0]->width();
   // label
-  (*top)[1]->Reshape(batch_size, 1, 1, 1);
-  prefetch_label_.reset(new Blob<Dtype>(batch_size, 1, 1, 1));
+  (*top)[1]->Reshape(batch_size, 4, 1, 1);
+  prefetch_label_.reset(new Blob<Dtype>(batch_size, 4, 1, 1));
   // datum size
   datum_channels_ = datum.channels();
   datum_height_ = datum.height();
@@ -258,7 +268,7 @@ void ImageDataLayer<Dtype>::ShuffleImages() {
   for (int i = 0; i < num_images; ++i) {
     const int max_rand_index = num_images - i;
     const int rand_index = PrefetchRand() % max_rand_index;
-    pair<string, int> item = lines_[rand_index];
+    pair<string, std::vector<int> > item = lines_[rand_index];
     lines_.erase(lines_.begin() + rand_index);
     lines_.push_back(item);
   }

@@ -70,7 +70,7 @@ void WriteProtoToBinaryFile(const Message& proto, const char* filename) {
   CHECK(proto.SerializeToOstream(&output));
 }
 
-bool ReadImageToDatum(const string& filename, const int label,
+bool ReadImageToDatum(const string& filename, const std::vector<int> labels,
     const int height, const int width, Datum* datum) {
   cv::Mat cv_img;
   if (height > 0 && width > 0) {
@@ -86,7 +86,11 @@ bool ReadImageToDatum(const string& filename, const int label,
   datum->set_channels(3);
   datum->set_height(cv_img.rows);
   datum->set_width(cv_img.cols);
-  datum->set_label(label);
+  // datum->set_label(labels);
+	datum->mutable_label()->Clear();
+	for(int label_i=0; label_i<labels.size(); label_i++){
+		datum->add_label(labels[label_i]);
+	}
   datum->clear_data();
   datum->clear_float_data();
   string* datum_string = datum->mutable_data();
