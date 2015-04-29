@@ -27,7 +27,13 @@
 *.mex*
 
 # build, distribute, and bins
-build/*
+# build/*
+build/src/*
+build/MSVC/Debug/*
+build/MSVCmex/bin/*
+*.sdf
+*.pdb
+
 distribute/*
 *.testbin
 *.bin
