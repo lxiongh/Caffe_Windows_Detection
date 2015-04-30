@@ -57,6 +57,7 @@ Makefile.config
 # 2. custom, and live on their own unless they're deliberated contributed
 data/*
 examples/*
+!MainCaller.cpp
 
 # Generated documentation
 docs/_site
